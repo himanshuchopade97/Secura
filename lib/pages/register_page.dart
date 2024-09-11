@@ -2,20 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:secura/components/text_field.dart';
-import 'package:secura/pages/register_page.dart';
+// import 'package:secura/pages/login_page.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _LoginPageState();
+    return _RegisterPageState();
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   double? _deviceHeight, _deviceWidth;
 
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _pwdcontroller = TextEditingController();
+  final TextEditingController _confirmpwdcontroller = TextEditingController();
+  
 
   @override
   void dispose() {
@@ -66,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Center(
                     child: Text(
-                      'Login',
+                      "Register with us",
                       style: TextStyle(
                         color: Colors.blue[700],
                         fontSize: 27,
@@ -105,6 +107,19 @@ class _LoginPageState extends State<LoginPage> {
                   //login in button
 
                   const SizedBox(
+                    height: 18,
+                  ),
+
+                   Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: MyTextField(
+                      controller: _confirmpwdcontroller,
+                      hintText: "Confirm Password",
+                      obscureText: true,
+                    ),
+                  ),
+
+                  const SizedBox(
                     height: 40,
                   ),
 
@@ -118,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          "Not a Member?",
+                          "Already a Member?",
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.blue[700],
@@ -141,17 +156,17 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginButton() {
     return MaterialButton(
       onPressed: () {
-        signIn();
+        signUp();
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
       // color: Color(0xFF755DC1),
-      color: Colors.blue[700],
+      color:  Colors.blue[700],
       minWidth: _deviceWidth! * 0.60,
       height: _deviceHeight! * 0.07,
       child: const Text(
-        "Login",
+        "Register",
         style: TextStyle(
           color: Colors.white,
           fontSize: 25,
@@ -165,14 +180,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget _registerButton() {
     return MaterialButton(
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RegisterPage()));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.pop(context);
       },
       // color: Colors.blue,
       minWidth: _deviceWidth! * 0.05,
       height: _deviceHeight! * 0.08,
-      child: Text(
-        "Register here",
+      child:  Text(
+        "Login Now",
         style: TextStyle(
           color: Colors.blue[700],
           fontSize: 15,
@@ -182,5 +197,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void signIn() {}
+  void signUp() {}
 }

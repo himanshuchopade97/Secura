@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663215363422",
+    "project_id": "secura-72370",
+    "storage_bucket": "secura-72370.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663215363422:android:823f51a4c714e256f1abcf",
+        "android_client_info": {
+          "package_name": "com.example.secura"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtgxX7Hlh43c66aW7ZMM9owZykw0WWkH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
