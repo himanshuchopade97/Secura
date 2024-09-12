@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:secura/components/text_field.dart';
 import 'package:secura/pages/register_page.dart';
+import 'package:secura/services/auth/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
-
   final void Function()? onPressed;
 
   const LoginPage({super.key, required this.onPressed});
@@ -19,8 +20,19 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   double? _deviceHeight, _deviceWidth;
 
+  final _auth = AuthService();
+
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _pwdcontroller = TextEditingController();
+
+  void login() async {
+    try {
+      await _auth.loginEmailPassword(
+          _emailcontroller.text, _pwdcontroller.text);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   void dispose() {
@@ -38,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Stack(
         children: [
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -113,7 +124,9 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SizedBox(width: 200,),
+                      SizedBox(
+                        width: 200,
+                      ),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
@@ -143,11 +156,11 @@ class _LoginPageState extends State<LoginPage> {
                         Text(
                           "Not a Member?",
                           style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600
-                          ),
+                              fontSize: 15,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600),
                         ),
                         _registerButton(),
                       ],
@@ -165,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginButton() {
     return MaterialButton(
       onPressed: () {
-        signIn();
+        login();
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
@@ -174,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
       color: Theme.of(context).colorScheme.onSecondary,
       minWidth: _deviceWidth! * 0.60,
       height: _deviceHeight! * 0.07,
-      child:  Text(
+      child: Text(
         "Login",
         style: TextStyle(
           color: Theme.of(context).colorScheme.tertiary,
@@ -191,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => RegisterPage()));
-          widget.onPressed!();
+        widget.onPressed!();
       },
       // color: Colors.blue,
       minWidth: _deviceWidth! * 0.05,
@@ -199,14 +212,11 @@ class _LoginPageState extends State<LoginPage> {
       child: Text(
         "Register here",
         style: TextStyle(
-          color: Theme.of(context).colorScheme.inversePrimary,
-          fontSize: 15,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w600
-        ),
+            color: Theme.of(context).colorScheme.inversePrimary,
+            fontSize: 15,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w600),
       ),
     );
   }
-
-  void signIn() {}
 }
