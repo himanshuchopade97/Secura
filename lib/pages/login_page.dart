@@ -6,9 +6,9 @@ import 'package:secura/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
 
-  // final void Function()? onPressed;
+  final void Function()? onPressed;
 
-  // const LoginPage({super.key, required this.onPressed});
+  const LoginPage({super.key, required this.onPressed});
 
   @override
   State<StatefulWidget> createState() {
@@ -189,9 +189,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget _registerButton() {
     return MaterialButton(
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RegisterPage()));
-        
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => RegisterPage()));
+          widget.onPressed!();
       },
       // color: Colors.blue,
       minWidth: _deviceWidth! * 0.05,

@@ -5,6 +5,10 @@ import 'package:secura/components/text_field.dart';
 // import 'package:secura/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
+ final void Function()? onPressed;
+
+  const RegisterPage({super.key, required this.onPressed});
+
   @override
   State<StatefulWidget> createState() {
     return _RegisterPageState();
@@ -157,7 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _loginButton() {
     return MaterialButton(
       onPressed: () {
-        signUp();
+      
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
@@ -182,7 +186,8 @@ class _RegisterPageState extends State<RegisterPage> {
     return MaterialButton(
       onPressed: () {
         // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-        Navigator.pop(context);
+        // Navigator.pop(context);
+          widget.onPressed!();
       },
       // color: Colors.blue,
       minWidth: _deviceWidth! * 0.05,
