@@ -26,19 +26,19 @@ class MyTextField extends StatelessWidget {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(width:1, color: Colors.black),
+          enabledBorder:  OutlineInputBorder(
+            borderSide: BorderSide(width:1, color: Theme.of(context).colorScheme.onTertiary),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width:1 ,color: Colors.black),
+          focusedBorder:  OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide(width:1 ,color: Theme.of(context).colorScheme.onTertiary),
             
           ),
           fillColor: Colors.grey.shade300,
           filled: true,
           label: Text(hintText),
-          labelStyle: TextStyle(color: Colors.blue[700],fontFamily: 'Poppins',fontWeight: FontWeight.w400),
+          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onTertiary,fontFamily: 'Poppins',fontWeight: FontWeight.w400),
         ),
       ),
     );

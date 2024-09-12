@@ -34,12 +34,12 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: Image.asset(
-              'assets/images/light_blue_cloudy_bg.jpeg',
-              fit: BoxFit.cover,
-            ),
-          ),
+          // SizedBox.expand(
+          //   child: Image.asset(
+          //     'assets/images/light_blue_cloudy_bg.jpeg',
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -53,6 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Icon(
                   Icons.message,
                   size: 80,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
               ),
 
@@ -70,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Text(
                       "Register with us",
                       style: TextStyle(
-                        color: Colors.blue[700],
+                        color: Theme.of(context).colorScheme.inversePrimary,
                         fontSize: 27,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w800,
@@ -136,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           "Already a Member?",
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.blue[700],
+                            color: Theme.of(context).colorScheme.inversePrimary,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -162,13 +163,13 @@ class _RegisterPageState extends State<RegisterPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       // color: Color(0xFF755DC1),
-      color:  Colors.blue[700],
+      color:  Theme.of(context).colorScheme.onSecondary,
       minWidth: _deviceWidth! * 0.60,
       height: _deviceHeight! * 0.07,
-      child: const Text(
+      child:  Text(
         "Register",
         style: TextStyle(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.tertiary,
           fontSize: 25,
           fontWeight: FontWeight.w500,
           fontFamily: 'Poppins',
@@ -189,7 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child:  Text(
         "Login Now",
         style: TextStyle(
-          color: Colors.blue[700],
+          color: Theme.of(context).colorScheme.inversePrimary,
           fontSize: 15,
           fontFamily: 'Poppins',
         ),

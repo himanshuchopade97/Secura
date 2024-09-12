@@ -5,6 +5,11 @@ import 'package:secura/components/text_field.dart';
 import 'package:secura/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
+
+  // final void Function()? onPressed;
+
+  // const LoginPage({super.key, required this.onPressed});
+
   @override
   State<StatefulWidget> createState() {
     return _LoginPageState();
@@ -30,14 +35,10 @@ class _LoginPageState extends State<LoginPage> {
     _deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: Image.asset(
-              'assets/images/light_blue_cloudy_bg.jpeg',
-              fit: BoxFit.cover,
-            ),
-          ),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -51,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Icon(
                   Icons.message,
                   size: 80,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
               ),
 
@@ -66,9 +68,9 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Center(
                     child: Text(
-                      'Login',
+                      'Welcome Back, User',
                       style: TextStyle(
-                        color: Colors.blue[700],
+                        color: Theme.of(context).colorScheme.inversePrimary,
                         fontSize: 27,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w800,
@@ -105,7 +107,28 @@ class _LoginPageState extends State<LoginPage> {
                   //login in button
 
                   const SizedBox(
-                    height: 40,
+                    height: 20,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(width: 200,),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Forgot Password",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 20,
                   ),
 
                   Center(child: _loginButton()),
@@ -121,8 +144,9 @@ class _LoginPageState extends State<LoginPage> {
                           "Not a Member?",
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.blue[700],
+                            color: Theme.of(context).colorScheme.inversePrimary,
                             fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600
                           ),
                         ),
                         _registerButton(),
@@ -147,15 +171,15 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       // color: Color(0xFF755DC1),
-      color: Colors.blue[700],
+      color: Theme.of(context).colorScheme.onSecondary,
       minWidth: _deviceWidth! * 0.60,
       height: _deviceHeight! * 0.07,
-      child: const Text(
+      child:  Text(
         "Login",
         style: TextStyle(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.tertiary,
           fontSize: 25,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.bold,
           fontFamily: 'Poppins',
         ),
       ),
@@ -167,6 +191,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => RegisterPage()));
+        
       },
       // color: Colors.blue,
       minWidth: _deviceWidth! * 0.05,
@@ -174,9 +199,10 @@ class _LoginPageState extends State<LoginPage> {
       child: Text(
         "Register here",
         style: TextStyle(
-          color: Colors.blue[700],
+          color: Theme.of(context).colorScheme.inversePrimary,
           fontSize: 15,
           fontFamily: 'Poppins',
+          fontWeight: FontWeight.w600
         ),
       ),
     );
