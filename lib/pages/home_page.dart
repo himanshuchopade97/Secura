@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:secura/components/drawer_tile.dart';
 import 'package:secura/pages/settings_page.dart';
+import 'package:secura/services/auth/auth_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  //access auth service
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final _auth = AuthService();
+
+  void logout() {
+    _auth.logout();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,13 +79,18 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
+
+              DrawerTile(
+                title: "L O G O U T",
+                icon: Icons.logout,
+                onTap: () {
+                  logout();
+                },
+              ),
             ],
           ),
         ),
       ),
-
-
-    
       appBar: AppBar(
         title: const Text("H O M E"),
         foregroundColor: Theme.of(context).colorScheme.onSecondary,
