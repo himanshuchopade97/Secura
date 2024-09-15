@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:secura/components/loading_circle.dart';
 import 'package:secura/components/text_field.dart';
 import 'package:secura/services/auth/auth_service.dart';
+import 'package:secura/services/database/database_service.dart';
 // import 'package:secura/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -25,9 +26,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _pwdcontroller = TextEditingController();
   final TextEditingController _confirmpwdcontroller = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  
-  //auth service
+
+  //auth & db service
   final _auth = AuthService();
+  final _db = DatabaseService();
 
   @override
   void dispose() {
@@ -48,6 +50,12 @@ class _RegisterPageState extends State<RegisterPage> {
         );
 
         if (mounted) hideLoadingCircle(context);
+
+        //once registered also save in firestore
+        await _db.saveUserInfoInFirebase(
+          name: _nameController.text,
+          email: _emailcontroller.text,
+        );
       } catch (e) {
         if (mounted) hideLoadingCircle(context);
 
@@ -62,13 +70,13 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     //pwd error
-    else{
-showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Password don't match"),
-          ),
-        );
+    else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Password don't match"),
+        ),
+      );
     }
   }
 
@@ -151,7 +159,7 @@ showDialog(
                       obscureText: false,
                     ),
                   ),
-                  
+
                   const SizedBox(
                     height: 14,
                   ),
