@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:secura/components/loading_circle.dart';
 import 'package:secura/components/text_field.dart';
+import 'package:secura/services/auth/auth_service.dart';
 // import 'package:secura/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
- final void Function()? onPressed;
+  final void Function()? onPressed;
 
   const RegisterPage({super.key, required this.onPressed});
 
@@ -21,13 +24,52 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _pwdcontroller = TextEditingController();
   final TextEditingController _confirmpwdcontroller = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   
+  //auth service
+  final _auth = AuthService();
 
   @override
   void dispose() {
     _emailcontroller.dispose();
     _pwdcontroller.dispose();
     super.dispose();
+  }
+
+  void register() async {
+    //password match
+    if (_pwdcontroller.text == _confirmpwdcontroller.text) {
+      showLoadingCircle(context);
+
+      try {
+        await _auth.registerEmailPassword(
+          _emailcontroller.text,
+          _pwdcontroller.text,
+        );
+
+        if (mounted) hideLoadingCircle(context);
+      } catch (e) {
+        if (mounted) hideLoadingCircle(context);
+
+        //error register
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text((e.toString())),
+          ),
+        );
+      }
+    }
+
+    //pwd error
+    else{
+showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Password don't match"),
+          ),
+        );
+    }
   }
 
   @override
@@ -46,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
           // ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             // mainAxisSize: MainAxisSize.max,
             children: [
               const SizedBox(
@@ -62,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
 
               const SizedBox(
-                height: 10,
+                height: 0,
               ),
 
               //welcome back
@@ -87,6 +129,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 20,
                   ),
 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: MyTextField(
+                      controller: _nameController,
+                      hintText: "Name",
+                      obscureText: false,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 14,
+                  ),
+
                   //email text
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -96,8 +151,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       obscureText: false,
                     ),
                   ),
+                  
                   const SizedBox(
-                    height: 18,
+                    height: 14,
                   ),
 
                   //pwd text
@@ -112,10 +168,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   //login in button
 
                   const SizedBox(
-                    height: 18,
+                    height: 14,
                   ),
 
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50),
                     child: MyTextField(
                       controller: _confirmpwdcontroller,
@@ -125,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
 
                   const SizedBox(
-                    height: 40,
+                    height: 30,
                   ),
 
                   Center(child: _loginButton()),
@@ -161,16 +217,16 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _loginButton() {
     return MaterialButton(
       onPressed: () {
-      
+        register();
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
       // color: Color(0xFF755DC1),
-      color:  Theme.of(context).colorScheme.onSecondary,
+      color: Theme.of(context).colorScheme.onSecondary,
       minWidth: _deviceWidth! * 0.60,
       height: _deviceHeight! * 0.07,
-      child:  Text(
+      child: Text(
         "Register",
         style: TextStyle(
           color: Theme.of(context).colorScheme.tertiary,
@@ -187,12 +243,12 @@ class _RegisterPageState extends State<RegisterPage> {
       onPressed: () {
         // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
         // Navigator.pop(context);
-          widget.onPressed!();
+        widget.onPressed!();
       },
       // color: Colors.blue,
       minWidth: _deviceWidth! * 0.05,
       height: _deviceHeight! * 0.08,
-      child:  Text(
+      child: Text(
         "Login Now",
         style: TextStyle(
           color: Theme.of(context).colorScheme.inversePrimary,

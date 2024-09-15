@@ -80,6 +80,8 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
 
+              Spacer(),
+
               DrawerTile(
                 title: "L O G O U T",
                 icon: Icons.logout,

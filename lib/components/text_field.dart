@@ -18,30 +18,39 @@ class MyTextField extends StatelessWidget {
     // ignore: unused_local_variable
     double? _deviceHeight, _deviceWidth;
     _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth =  MediaQuery.of(context).size.width;
+    _deviceWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      width: _deviceWidth*0.87,
+      width: _deviceWidth * 0.87,
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          color: Theme.of(context)
+              .colorScheme
+              .onTertiary, // Change the text color here
+        ),
         decoration: InputDecoration(
-          enabledBorder:  OutlineInputBorder(
-            borderSide: BorderSide(width:1, color: Theme.of(context).colorScheme.onTertiary),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                width: 1, color: Theme.of(context).colorScheme.onTertiary),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          focusedBorder:  OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(width:1 ,color: Theme.of(context).colorScheme.onTertiary),
-            
+            borderSide: BorderSide(
+                width: 1, color: Theme.of(context).colorScheme.onTertiary),
           ),
           fillColor: Colors.grey.shade300,
           filled: true,
           label: Text(hintText),
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onTertiary,fontFamily: 'Poppins',fontWeight: FontWeight.w400),
+          labelStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onTertiary,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400),
         ),
       ),
     );
   }
-  
 }

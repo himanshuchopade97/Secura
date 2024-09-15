@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:secura/components/loading_circle.dart';
 import 'package:secura/components/text_field.dart';
 import 'package:secura/pages/register_page.dart';
 import 'package:secura/services/auth/auth_service.dart';
@@ -26,11 +27,21 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _pwdcontroller = TextEditingController();
 
   void login() async {
+    //loading circle
+    showLoadingCircle(context);
+
     try {
       await _auth.loginEmailPassword(
           _emailcontroller.text, _pwdcontroller.text);
+      if (mounted) hideLoadingCircle(context);
     } catch (e) {
-      print(e.toString());
+      if (mounted) hideLoadingCircle(context);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(("Exception, Invalid Credentials")),
+        ),
+      );
     }
   }
 
