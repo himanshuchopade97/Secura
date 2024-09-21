@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:secura/themes/theme_provider.dart';
 
 class MySettingTile extends StatelessWidget {
   final String title;
@@ -17,8 +15,9 @@ class MySettingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
-          borderRadius: BorderRadius.circular(12)),
+        color: Theme.of(context).colorScheme.secondary,
+        borderRadius: BorderRadius.circular(12),
+      ),
 
       //padding ouotside
       margin: EdgeInsets.only(left: 25, right: 25, top: 10),
@@ -29,7 +28,10 @@ class MySettingTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: TextStyle(fontWeight: FontWeight.bold),),
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           action,
         ],
       ),

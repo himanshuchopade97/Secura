@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:secura/models/user.dart';
+import 'package:secura/services/auth/auth_service.dart';
 
 //this class handles data from and to firebase
 
@@ -56,6 +56,20 @@ class DatabaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  //update user bio
+  Future<void> updateUserBioInFirebase(String bio) async {
+
+    //get curr uid
+    String uid = AuthService().getCurrentUid();
+  
+    try{
+      await _db.collection("Users").doc(uid).update({'bio' : bio});
+    }
+    catch(e){
+      print(e);
     }
   }
 

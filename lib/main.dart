@@ -3,19 +3,25 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:secura/services/auth/auth_gate.dart';
+import 'package:secura/services/database/database_provider.dart';
 import 'package:secura/themes/theme_provider.dart';
 // import 'package:secura/pages/register_page.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        //theme provider
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+
+        //database provider
+        ChangeNotifierProvider(create: (context) => DatabaseProvider())
+      ],
       child: const MyApp(),
-    )
+    ),
   );
 }
 

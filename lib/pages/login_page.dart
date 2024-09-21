@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:secura/components/loading_circle.dart';
 import 'package:secura/components/text_field.dart';
-import 'package:secura/pages/register_page.dart';
 import 'package:secura/services/auth/auth_service.dart';
 
 class LoginPage extends StatefulWidget {

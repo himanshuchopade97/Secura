@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:secura/components/drawer_tile.dart';
+import 'package:secura/pages/pofile_page.dart';
 import 'package:secura/pages/settings_page.dart';
 import 'package:secura/services/auth/auth_service.dart';
 
@@ -59,7 +60,18 @@ class _HomePageState extends State<HomePage> {
               DrawerTile(
                 title: "P R O F I L E",
                 icon: Icons.person,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                        ProfilePage(uid: _auth.getCurrentUid())
+                      ,
+                    ),
+                  );
+                },
               ),
 
               // search list tile
