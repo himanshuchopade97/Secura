@@ -21,8 +21,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _auth = AuthService();
-  late final databaseProvider = Provider.of<DatabaseProvider>(context,
-      listen: false); //executes the listened data to firebase and vice versa
+
+  //executes the listened data to firebase & vice versa
+  late final databaseProvider = Provider.of<DatabaseProvider>(context, listen: false); 
+  
   late final listeningProvider =
       Provider.of<DatabaseProvider>(context); //only listens to changes
 
@@ -36,13 +38,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     loadAllPosts();
   }
 
   Future<void> loadAllPosts() async {
-    await databaseProvider
-        .loadAllPosts(); //this loadallposts function from database provider
+    await databaseProvider.loadAllPosts(); //this load all posts function from database provider
   }
 
   void _openPostMessageBox() {
