@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,17 +22,17 @@ class MySettingTile extends StatelessWidget {
       ),
 
       //padding ouotside
-      margin: EdgeInsets.only(left: 25, right: 25, top: 10),
+      margin: const EdgeInsets.only(left: 25, right: 25, top: 10),
 
       //padding inside
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           action,
         ],

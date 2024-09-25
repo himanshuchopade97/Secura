@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Secura',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: AuthGate(),
+      home: const AuthGate(),
     );
   }
 }

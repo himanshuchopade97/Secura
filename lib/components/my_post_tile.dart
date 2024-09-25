@@ -30,14 +30,14 @@ class _MyPostTileState extends State<MyPostTile> {
       onTap: widget.onPostTap,
       child: Container(
         //padding outside
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         //padding inside
-        padding: EdgeInsets.all(20),
-      
+        padding: const EdgeInsets.all(20),
+
         decoration: BoxDecoration(
           //colour of post tile
           color: Theme.of(context).colorScheme.secondary,
-      
+
           //curve corner
           borderRadius: BorderRadius.circular(8),
         ),
@@ -53,7 +53,7 @@ class _MyPostTileState extends State<MyPostTile> {
                     Icons.person,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-      
+
                   //name
                   Text(
                     widget.post.name,
@@ -62,11 +62,9 @@ class _MyPostTileState extends State<MyPostTile> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-      
-                  SizedBox(
-                    width: 5,
-                  ),
-      
+
+                  const SizedBox(width: 5),
+
                   //username handle
                   Text(
                     '@${widget.post.username}',
@@ -77,11 +75,9 @@ class _MyPostTileState extends State<MyPostTile> {
                 ],
               ),
             ),
-      
-            SizedBox(
-              height: 10,
-            ),
-      
+
+            const SizedBox(height: 10),
+
             //message
             Text(
               widget.post.message,
