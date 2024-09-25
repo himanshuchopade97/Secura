@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:secura/models/post.dart';
 import 'package:secura/models/user.dart';
 import 'package:secura/services/auth/auth_service.dart';
 
@@ -22,7 +23,8 @@ class DatabaseService {
   final _auth = FirebaseAuth.instance;
 
   //save user info
-  Future<void> saveUserInfoInFirebase({required String name,required String email}) async {
+  Future<void> saveUserInfoInFirebase(
+      {required String name, required String email}) async {
     //get curr uid
     String uid = _auth.currentUser!.uid;
 
@@ -61,20 +63,61 @@ class DatabaseService {
 
   //update user bio
   Future<void> updateUserBioInFirebase(String bio) async {
-
     //get curr uid
     String uid = AuthService().getCurrentUid();
-  
-    try{
-      await _db.collection("Users").doc(uid).update({'bio' : bio});
-    }
-    catch(e){
+
+    try {
+      await _db.collection("Users").doc(uid).update({'bio': bio});
+    } catch (e) {
       print(e);
     }
   }
 
   //post msg
+  Future<void> postMessageInFirebase(String message) async {
+    try {
+      String uid = _auth.currentUser!.uid;
 
+      UserProfile? user = await getUserFromFirebase(uid);
+
+      Post newPost = Post(
+        id: '', //firebase will auto generate this
+        uid: uid,
+        name: user!.name,
+        username: user.username,
+        message: message,
+        timestamp: Timestamp.now(),
+        likeCount: 0,
+        likedBy: [],
+      );
+
+      //convert post obj to map
+      Map<String, dynamic> newPostMap = newPost.toMap();
+
+      await _db.collection("Posts").add(newPostMap);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //delete msg
+
+  //get all posts
+  Future<List<Post>> getAllPostsFromFirebase() async {
+    try {
+      QuerySnapshot snapshot = await _db
+          .collection("Posts")
+          .orderBy('timestamp', descending: true)
+          .get();
+
+      //return a list of posts
+      return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  //get individual post
 
   //like
 

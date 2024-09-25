@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:secura/components/drawer_tile.dart';
+import 'package:secura/components/input_alert_box.dart';
+import 'package:secura/components/my_post_tile.dart';
+import 'package:secura/helper/navigate_pages.dart';
+import 'package:secura/models/post.dart';
 import 'package:secura/pages/pofile_page.dart';
 import 'package:secura/pages/settings_page.dart';
 import 'package:secura/services/auth/auth_service.dart';
+import 'package:secura/services/database/database_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,9 +21,48 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _auth = AuthService();
+  late final databaseProvider = Provider.of<DatabaseProvider>(context,
+      listen: false); //executes the listened data to firebase and vice versa
+  late final listeningProvider =
+      Provider.of<DatabaseProvider>(context); //only listens to changes
 
   void logout() {
     _auth.logout();
+  }
+
+  final _messageCntroller = TextEditingController();
+
+  //on startup, load all posts
+  @override
+  void initState() {
+    super.initState();
+
+    loadAllPosts();
+  }
+
+  Future<void> loadAllPosts() async {
+    await databaseProvider
+        .loadAllPosts(); //this loadallposts function from database provider
+  }
+
+  void _openPostMessageBox() {
+    showDialog(
+      context: context,
+      builder: (context) => InputAlertBox(
+        textController: _messageCntroller,
+        hintText: "Whats on your mind?",
+        onPressed: () async {
+          //post message
+          await postMessage(_messageCntroller.text);
+        },
+        onPressedText: "Post",
+      ),
+    );
+  }
+
+  //user wants to post message
+  Future<void> postMessage(String message) async {
+    await databaseProvider.postMessage(message);
   }
 
   @override
@@ -67,8 +112,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                        ProfilePage(uid: _auth.getCurrentUid())
-                      ,
+                          ProfilePage(uid: _auth.getCurrentUid()),
                     ),
                   );
                 },
@@ -109,6 +153,36 @@ class _HomePageState extends State<HomePage> {
         title: const Text("H O M E"),
         foregroundColor: Theme.of(context).colorScheme.onSecondary,
       ),
+
+      //floating action button
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _openPostMessageBox();
+        },
+        child: Icon(Icons.add),
+      ),
+
+      //body : list of all posts
+      body: _buildPostList(listeningProvider.allPosts),
     );
+  }
+
+  Widget _buildPostList(List<Post> posts) {
+    return posts.isEmpty
+        ? Center(child: Text("Nothing here"))
+        : ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              //get each post
+              final post = posts[index];
+
+              //return as post tile ui
+              return MyPostTile(
+                post: post,
+                onUserTap: () => goUserPage(context, post.uid),
+                onPostTap: () => goPostPage(context, post),
+              );
+            },
+          );
   }
 }
