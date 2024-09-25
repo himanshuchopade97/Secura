@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:popover/popover.dart';
+import 'package:provider/provider.dart';
 import 'package:secura/models/post.dart';
+import 'package:secura/services/auth/auth_service.dart';
+import 'package:secura/services/database/database_provider.dart';
 
 //all post will be displayed using this post tile widget
 /*we need
@@ -24,10 +28,79 @@ class MyPostTile extends StatefulWidget {
 }
 
 class _MyPostTileState extends State<MyPostTile> {
+  //provider
+  late final databaseProvider =
+      Provider.of<DatabaseProvider>(context, listen: false);
+  late final listeningProvider = Provider.of<DatabaseProvider>(context);
+
+  void _showOptions() {
+    //check if post is owned by user or not
+    String currentUid = AuthService().getCurrentUid();
+    final bool isOwnPost = widget.post.uid == currentUid;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              if (isOwnPost)
+                // delete button
+                ListTile(
+                  leading: const Icon(Icons.delete),
+                  title: const Text("Delete"),
+                  onTap: () async {
+                    Navigator.pop(context);
+
+                    //handle delete action
+                    await databaseProvider.deletePost(widget.post.id);
+                  },
+                )
+              else ...[
+                ListTile(
+                  //report post
+                  leading: const Icon(Icons.flag),
+                  title: const Text("Report"),
+                  onTap: () {
+                    Navigator.pop(context);
+
+                    //handle report
+                  },
+                ),
+
+                //block user
+                ListTile(
+                  //report post
+                  leading: const Icon(Icons.block),
+                  title: const Text("Block User"),
+                  onTap: () {
+                    Navigator.pop(context);
+
+                    //handle report
+                  },
+                ),
+              ],
+
+              // cancel button
+              ListTile(
+                leading: const Icon(Icons.cancel),
+                title: const Text("Cancel"),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onPostTap,
+      // onLongPress: _showOptions,
       child: Container(
         //padding outside
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -71,7 +144,14 @@ class _MyPostTileState extends State<MyPostTile> {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                  )
+                  ),
+
+                  const Spacer(),
+
+                  GestureDetector(
+                    onTap: () => _showOptions(),
+                    child: Icon(Icons.more_horiz),
+                  ),
                 ],
               ),
             ),
@@ -90,4 +170,32 @@ class _MyPostTileState extends State<MyPostTile> {
       ),
     );
   }
+
+  // void _showOptions() {
+  //   showPopover(
+  //     context: context,
+  //     bodyBuilder: (context) {
+  //       return Column(
+  //         children: [
+  //           //delete button
+  //           ListTile(
+  //             leading: const Icon(Icons.delete),
+  //             title: const Text("Delete"),
+  //             onTap: () {},
+  //           ),
+
+  //           //cancel button
+  //           ListTile(
+  //             leading: const Icon(Icons.cancel),
+  //             title: const Text("Cancel"),
+  //             onTap: () {},
+  //           )
+  //         ],
+  //       );
+  //     },
+  //     width: 180,
+  //     height: 120,
+  //     direction: PopoverDirection.bottom,
+  //   );
+  // }
 }

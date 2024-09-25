@@ -52,4 +52,13 @@ class DatabaseProvider extends ChangeNotifier {
   List<Post> filterUserPosts(String uid){
     return _allPosts.where((post) => post.uid == uid).toList();
   }
+
+  //delete post
+  Future<void> deletePost(String postId) async {
+    //delete from firebase
+    await _db.deletePostFromFirebase(postId);
+    
+    //reload data
+    await loadAllPosts();
+  }
 }
