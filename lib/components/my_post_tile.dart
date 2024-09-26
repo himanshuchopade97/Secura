@@ -178,12 +178,42 @@ class _MyPostTileState extends State<MyPostTile> {
   //       return Column(
   //         children: [
   //           //delete button
-  //           ListTile(
-  //             leading: const Icon(Icons.delete),
-  //             title: const Text("Delete"),
-  //             onTap: () {},
-  //           ),
+  //            if (isOwnPost)
+  //               // delete button
+  //               ListTile(
+  //                 leading: const Icon(Icons.delete),
+  //                 title: const Text("Delete"),
+  //                 onTap: () async {
+  //                   Navigator.pop(context);
 
+  //                   //handle delete action
+  //                   await databaseProvider.deletePost(widget.post.id);
+  //                 },
+  //               )
+  //             else ...[
+  //               ListTile(
+  //                 //report post
+  //                 leading: const Icon(Icons.flag),
+  //                 title: const Text("Report"),
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+
+  //                   //handle report
+  //                 },
+  //               ),
+
+  //               //block user
+  //               ListTile(
+  //                 //report post
+  //                 leading: const Icon(Icons.block),
+  //                 title: const Text("Block User"),
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+
+  //                   //handle report
+  //                 },
+  //               ),
+  //             ],
   //           //cancel button
   //           ListTile(
   //             leading: const Icon(Icons.cancel),
