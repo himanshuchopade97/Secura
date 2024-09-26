@@ -96,11 +96,71 @@ class _MyPostTileState extends State<MyPostTile> {
     );
   }
 
+  void _showOptions2() {
+    String currentUid = AuthService().getCurrentUid();
+    final bool isOwnPost = widget.post.uid == currentUid;
+    showPopover(
+      context: context,
+      bodyBuilder: (context) {
+        return Wrap(
+          children: [
+            //delete button
+            if (isOwnPost)
+              // delete button
+              ListTile(
+                leading: const Icon(Icons.delete),
+                title: const Text("Delete"),
+                onTap: () async {
+                  Navigator.pop(context);
+
+                  //handle delete action
+                  await databaseProvider.deletePost(widget.post.id);
+                },
+              )
+            else ...[
+              ListTile(
+                //report post
+                leading: const Icon(Icons.flag),
+                title: const Text("Report"),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  //handle report
+                },
+              ),
+
+              //block user
+              ListTile(
+                //report post
+                leading: const Icon(Icons.block),
+                title: const Text("Block User"),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  //handle report
+                },
+              ),
+            ],
+            //cancel button
+            ListTile(
+              leading: const Icon(Icons.cancel),
+              title: const Text("Cancel"),
+              onTap: () {},
+            )
+          ],
+        );
+      },
+      width: 180,
+      // height: 180,
+      direction: PopoverDirection.bottom,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onPostTap,
-      // onLongPress: _showOptions,
+      onLongPress: _showOptions2,
       child: Container(
         //padding outside
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -170,62 +230,4 @@ class _MyPostTileState extends State<MyPostTile> {
       ),
     );
   }
-
-  // void _showOptions() {
-  //   showPopover(
-  //     context: context,
-  //     bodyBuilder: (context) {
-  //       return Column(
-  //         children: [
-  //           //delete button
-  //            if (isOwnPost)
-  //               // delete button
-  //               ListTile(
-  //                 leading: const Icon(Icons.delete),
-  //                 title: const Text("Delete"),
-  //                 onTap: () async {
-  //                   Navigator.pop(context);
-
-  //                   //handle delete action
-  //                   await databaseProvider.deletePost(widget.post.id);
-  //                 },
-  //               )
-  //             else ...[
-  //               ListTile(
-  //                 //report post
-  //                 leading: const Icon(Icons.flag),
-  //                 title: const Text("Report"),
-  //                 onTap: () {
-  //                   Navigator.pop(context);
-
-  //                   //handle report
-  //                 },
-  //               ),
-
-  //               //block user
-  //               ListTile(
-  //                 //report post
-  //                 leading: const Icon(Icons.block),
-  //                 title: const Text("Block User"),
-  //                 onTap: () {
-  //                   Navigator.pop(context);
-
-  //                   //handle report
-  //                 },
-  //               ),
-  //             ],
-  //           //cancel button
-  //           ListTile(
-  //             leading: const Icon(Icons.cancel),
-  //             title: const Text("Cancel"),
-  //             onTap: () {},
-  //           )
-  //         ],
-  //       );
-  //     },
-  //     width: 180,
-  //     height: 120,
-  //     direction: PopoverDirection.bottom,
-  //   );
-  // }
 }
