@@ -33,6 +33,15 @@ class _MyPostTileState extends State<MyPostTile> {
       Provider.of<DatabaseProvider>(context, listen: false);
   late final listeningProvider = Provider.of<DatabaseProvider>(context);
 
+  //user tapped like or unlike
+  void _toggleLikePost() async {
+    try {
+      await databaseProvider.toggleLike(widget.post.id);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void _showOptions() {
     //check if post is owned by user or not
     String currentUid = AuthService().getCurrentUid();
@@ -158,6 +167,10 @@ class _MyPostTileState extends State<MyPostTile> {
 
   @override
   Widget build(BuildContext context) {
+    //does the current user like the post
+    bool likedByCurrentUser =
+        listeningProvider.isPostLikedByCurrentUser(widget.post.id);
+
     return GestureDetector(
       onTap: widget.onPostTap,
       onLongPress: _showOptions2,
@@ -225,6 +238,19 @@ class _MyPostTileState extends State<MyPostTile> {
                 color: Theme.of(context).colorScheme.inversePrimary,
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            //buttons for like and comment
+            Row(
+              children: [
+                //like
+                GestureDetector(
+                  onTap: _toggleLikePost,
+                  child: likedByCurrentUser ? Icon(Icons.favorite, color: Colors.red) :Icon(Icons.favorite_border, color: Colors.grey) ,
+                ),
+              ],
+            )
           ],
         ),
       ),
