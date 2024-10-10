@@ -77,7 +77,7 @@ class DatabaseProvider extends ChangeNotifier {
   List<String> _likedPosts = [];
 
   //does the curr user like the post
-  bool isPostLikedByCurrentUser (String postId) => _likedPosts.contains(postId);
+  bool isPostLikedByCurrentUser(String postId) => _likedPosts.contains(postId);
 
   //get like count of a post
   int getLikeCount(String postId) => _likeCounts[postId]!;
@@ -87,10 +87,13 @@ class DatabaseProvider extends ChangeNotifier {
     //get current uid
     final currentUserID = _auth.getCurrentUid();
 
+    //clear liked post for new user
+    _likedPosts.clear();
+
     //for each post get like data
     for (var post in _allPosts) {
       //update like count map
-      _likeCounts[post.id] == post.likeCount;
+      _likeCounts[post.id] = post.likeCount;
 
       //if the current user already liked the post
       if (post.likedBy.contains(currentUserID)) {
@@ -119,7 +122,20 @@ class DatabaseProvider extends ChangeNotifier {
     }
 
     //update ui locally
+    notifyListeners();
 
     //update in database
+    try {
+      await _db.toggleLikeInFirebase(postId);
+    } 
+    
+    //revert back to initial state if fails
+    catch (e) {
+      _likedPosts = likePostsOriginal;
+      _likeCounts = likeCountsOriginal;
+
+      //update ui again
+      notifyListeners();
+    }
   }
 }
